@@ -1,18 +1,38 @@
-Terminals are upper-case while non-terminals only have the first character encapsulated
-
+Terminals:
 ```
-Stmt  ->  ExprSEMI
-       |  AsgnSEMI
-
-Asgn  ->  NAME = NUM
-
-Expr  ->  (Expr)
-       |  NAME Op Expr
-       |  NUM Op Expr
-       |  NUM
-
-Definition of terminals:
-SEMI: Semicolon character ';'
-NAME: An identifier
-NUM: Interger literal
+NAME
+NUM
+ASGNOP( =)
+ADDOP( + )
+SUBOP( - )
+MULTOP( * )
+DIVOP( / )
+LPAREN( '(' )    
+RPAREN( ')' )
+SEMI( ; )
 ```
+
+Grammar:
+```
+Statement   → Assignment SEMI
+            | Expression SEMI        // chosen when look-ahead after NAME ≠ '='
+
+Assignment  → NAME ASGNOP Expression
+
+Expression  → Term Expression′
+
+Expression′ → ADDOP Term Expression′
+            | SUBOP Term Expression′
+            | ε
+
+Term        → Factor Term′
+
+Term′       → MULTOP Factor Term′
+            | DIVOP Factor Term′
+            | ε
+
+Factor      → NAME
+            | NUM
+            | LPAREN Expression RPAREN
+```
+
