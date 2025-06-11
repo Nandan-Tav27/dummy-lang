@@ -1,8 +1,15 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include "Lexer.h"
 
-int readFileIntoString(std::ifstream &ifs, std::string &str) {
-
+std::string readFileIntoString(std::string filePath) {
+    if (std::ifstream file(filePath); file.is_open()) {
+        std::stringstream buff;
+        buff << file.rdbuf();
+        return buff.str();
+    }
+    throw std::runtime_error("Could not open file " + filePath);
 }
 
 int main(int argc, char *argv[]) {
@@ -18,15 +25,18 @@ int main(int argc, char *argv[]) {
     }
 
    // TODO: Ensure file extension is .toy
-    const std::fstream file(argv[2], std::ios::in);
-    if (!file.is_open()) {
-        std::cerr << "Unable to open file " << argv[2] << "\n";
+
+    std::string program;
+    try {
+        program = readFileIntoString(argv[2]);
+    } catch (const std::exception& e) {
+        std::cerr << "Error occurred while reading file: " << e.what() << "\n";
         return 1;
     }
 
-    std::string_view buffer;
-
     // Tokenize
+    Lexer lexer(program);
+    lexer.lex();
     // Parse
     // SEMA
     // ...
