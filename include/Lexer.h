@@ -4,8 +4,10 @@
 
 class Lexer {
     std::string data;
+    size_t pos = 0;
 
 public:
     explicit Lexer(std::string input) : data(std::move(input)) {}
-    [[ nodiscard ]] std::vector<Token> lex();
+    [[nodiscard]] Token getNextToken();
+    bool hasNextToken() const;
 };

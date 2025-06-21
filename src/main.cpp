@@ -2,8 +2,9 @@
 #include <fstream>
 #include <sstream>
 #include "Lexer.h"
+#include "Token.h"
 
-std::string readFileIntoString(std::string filePath) {
+std::string readFileIntoString(const std::string& filePath) {
     if (std::ifstream file(filePath); file.is_open()) {
         std::stringstream buff;
         buff << file.rdbuf();
@@ -34,10 +35,20 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Tokenize
-    Lexer lexer(program);
-    lexer.lex();
-    // Parse
+    try {
+        // Tokenize
+        Lexer lexer(program);
+        while (lexer.hasNextToken()) {
+            std::cout << lexer.getNextToken().type << "\n";
+        }
+
+        // Parse
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error while compiling: " << e.what() << "\n";
+        return 1;
+    }
+
     // SEMA
     // ...
 

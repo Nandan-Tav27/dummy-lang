@@ -13,7 +13,8 @@ enum TokenType {
     division_operator,
     left_parenthesis,
     right_parenthesis,
-    semicolon
+    semicolon,
+    end_of_file
 };
 
 struct Token {

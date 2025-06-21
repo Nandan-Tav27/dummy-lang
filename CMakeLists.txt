@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(dummy_lang
         src/main.cpp
         src/Lexer.cpp
+        src/Parser.cpp
+        src/ASTNode.cpp
 )
 
 target_include_directories(dummy_lang PRIVATE
